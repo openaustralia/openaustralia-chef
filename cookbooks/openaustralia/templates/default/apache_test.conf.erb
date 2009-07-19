@@ -35,13 +35,14 @@
     ## See http://smartmobtoolkit.wordpress.com/2008/10/16/not-device-detection/ for more info
     ## NOTE: May also need conds/rules for specific transcoders that lie
     ##       e.g. Google\sWireless\sTranscoder & MG\(Novarra-Vision
-    ## NOTE: This is pretty rough and is just to get the first version working
     ##########################################################################################
     # /mp/ URL Mobile redirection (by exclusion)
     #RewriteCond         %{QUERY_STRING}         !^pc$ [NC]
     # NOTE: May want to add other bot patterns here
     RewriteCond         %{HTTP_USER_AGENT}      !^.*(spider|crawl|slurp|bot).*$ [NC]
-    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*webOS.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*Android.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*Win.*$ [NC,OR]
     RewriteCond         %{HTTP_USER_AGENT}      ^.*Windows\s+CE.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*OS\s+(X|9).*$ [NC,OR]
@@ -69,9 +70,11 @@
 
     # default top level / URL Mobile redirection (by exclusion)
     RewriteCond         %{QUERY_STRING}         !^pc$ [NC]
-    # NOTE: May want to add other bot patters here
+    # NOTE: May want to add other bot patterns here
     RewriteCond         %{HTTP_USER_AGENT}      !^.*(spider|crawl|slurp|bot).*$ [NC]
-    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*webOS.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*Android.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*Win.*$ [NC,OR]
     RewriteCond         %{HTTP_USER_AGENT}      ^.*Windows\s+CE.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*OS\s+(X|9).*$ [NC,OR]
@@ -83,9 +86,11 @@
 
     # help/ URL Mobile redirection (by exclusion)
     #RewriteCond         %{QUERY_STRING}         !^pc$ [NC]
-    # NOTE: May want to add other bot patters here
+    # NOTE: May want to add other bot patterns here
     RewriteCond         %{HTTP_USER_AGENT}      !^.*(spider|crawl|slurp|bot).*$ [NC]
-    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*webOS.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*Android.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*Win.*$ [NC,OR]
     RewriteCond         %{HTTP_USER_AGENT}      ^.*Windows\s+CE.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*OS\s+(X|9).*$ [NC,OR]
@@ -97,9 +102,11 @@
 
     # search/ URL Mobile redirection (by exclusion)
     #RewriteCond         %{QUERY_STRING}         !^pc$ [NC]
-    # NOTE: May want to add other bot patters here
+    # NOTE: May want to add other bot patterns here
     RewriteCond         %{HTTP_USER_AGENT}      !^.*(spider|crawl|slurp|bot).*$ [NC]
-    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*webOS.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*Android.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*Win.*$ [NC,OR]
     RewriteCond         %{HTTP_USER_AGENT}      ^.*Windows\s+CE.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*OS\s+(X|9).*$ [NC,OR]
@@ -111,9 +118,11 @@
 
     # senate/ URL Mobile redirection (by exclusion)
     #RewriteCond         %{QUERY_STRING}         !^pc$ [NC]
-    # NOTE: May want to add other bot patters here
+    # NOTE: May want to add other bot patterns here
     RewriteCond         %{HTTP_USER_AGENT}      !^.*(spider|crawl|slurp|bot).*$ [NC]
-    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*webOS.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*Android.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*Win.*$ [NC,OR]
     RewriteCond         %{HTTP_USER_AGENT}      ^.*Windows\s+CE.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*OS\s+(X|9).*$ [NC,OR]
@@ -125,9 +134,11 @@
 
     # debates/ URL Mobile redirection (by exclusion)
     #RewriteCond         %{QUERY_STRING}         !^pc$ [NC]
-    # NOTE: May want to add other bot patters here
+    # NOTE: May want to add other bot patterns here
     RewriteCond         %{HTTP_USER_AGENT}      !^.*(spider|crawl|slurp|bot).*$ [NC]
-    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*webOS.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      !^.*Linux.*$ [NC,OR]
+    RewriteCond         %{HTTP_USER_AGENT}      ^.*Android.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*Win.*$ [NC,OR]
     RewriteCond         %{HTTP_USER_AGENT}      ^.*Windows\s+CE.*$ [NC]
     RewriteCond         %{HTTP_USER_AGENT}      !^.*OS\s+(X|9).*$ [NC,OR]
