@@ -1,18 +1,29 @@
 include_recipe "apache"
 
-package "www/wordpress" do
-  source "ports"
-end
-
-template "/usr/local/www/data/wordpress/wp-config.php" do
-  source "wp-config.php.erb"
-  mode 0644
-end
-
 directory "/www/blog"
 
-link "/www/blog/html" do
-  to "/usr/local/www/data/wordpress"
+unless File.exists?("/www/blog/html")
+  puts "Downloading and installing Wordpress..."
+  remote_file "wordpress" do
+    path "/tmp/wordpress.tar.gz"
+    source "http://wordpress.org/wordpress-2.8.4.tar.gz"
+    not_if { File.exists?(path) }
+  end
+
+  # Hmmm... Making the untar verbose (with the 'v' option) makes this command hang on FreeBSD
+  execute "untar-wordpress" do
+    command "(cd /tmp; tar zxf /tmp/wordpress.tar.gz)"
+  end
+  
+  execute "install-wordpress" do
+    command "mv /tmp/wordpress /www/blog/html/"
+  end
+end
+
+
+template "/www/blog/html/wp-config.php" do
+  source "wp-config.php.erb"
+  mode 0644
 end
 
 template "site.conf" do
@@ -24,8 +35,3 @@ template "site.conf" do
 end
   
 apache_site "blog"
-
-# Install Greenway 3c theme
-remote_directory "/usr/local/www/data/wordpress/wp-content/themes/greenway-3c" do
-  source "greenway-3c"
-end
