@@ -1,4 +1,5 @@
 include_recipe "apache"
+include_recipe "php"
 
 directory "/www/blog"
 
@@ -35,3 +36,8 @@ template "site.conf" do
 end
   
 apache_site "blog"
+
+# Update php so that plugin install/update for Wordpress can work via sftp
+package "pecl-ssh2" do
+  source "ports"
+end
