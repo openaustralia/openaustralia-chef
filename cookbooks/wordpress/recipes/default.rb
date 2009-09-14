@@ -19,6 +19,10 @@ unless File.exists?("/www/blog/html")
   execute "install-wordpress" do
     command "mv /tmp/wordpress /www/blog/html/"
   end
+  
+  # Set ownership on whole directory. Hmmm.. Feels icky.
+  # This is so that we can upgrade/install plugins automatically
+  execute "chown -R www /www/blog/html"
 end
 
 
@@ -36,8 +40,3 @@ template "site.conf" do
 end
   
 apache_site "blog"
-
-# Update php so that plugin install/update for Wordpress can work via sftp
-package "pecl-ssh2" do
-  source "ports"
-end
