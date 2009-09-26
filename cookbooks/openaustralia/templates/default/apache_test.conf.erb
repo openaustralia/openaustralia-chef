@@ -16,6 +16,8 @@
     ErrorLog "/var/log/test-error_log"
     CustomLog /var/log/test-access_log common
 
+    ErrorDocument 404 /404.php
+
     RewriteEngine on
 
     # Links in emails
