@@ -17,8 +17,10 @@ require_recipe 'mysql'
   end
 
   # Hmmm... I wonder if Apache will start up if the openaustralia app is not installed
+  # Temporary workaround: using target path which is absolute rather than relative because otherwise
+  # in Chef it causes this link to be recreated on every run. In other words, a small bug in Chef.
   link node[:openaustralia][stage][:html_root] do
-    to "openaustralia/current/twfy/www/docs"
+    to "#{node[:openaustralia][stage][:install_path]}/current/twfy/www/docs"
   end
 
   %w{shared releases shared/images/mps shared/images/mpsL shared/rss/mp}.each do |dir|
