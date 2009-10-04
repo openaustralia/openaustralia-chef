@@ -22,13 +22,25 @@ define :apache_site, :enable => true do
     execute "a2ensite #{params[:name]}" do
       command "/usr/local/sbin/a2ensite #{params[:name]}"
       notifies :reload, resources(:service => "apache22")
-      not_if do File.symlink?("#{node[:apache][:dir]}/sites-enabled/#{params[:name]}") end
+      not_if do
+        if params[:name] == "default"
+          File.symlink?("#{node[:apache][:dir]}/sites-enabled/000-default")
+        else
+          File.symlink?("#{node[:apache][:dir]}/sites-enabled/#{params[:name]}")
+        end
+      end
     end
   else
     execute "a2dissite #{params[:name]}" do
       command "/usr/local/sbin/a2dissite #{params[:name]}"
       notifies :reload, resources(:service => "apache22")
-      only_if do File.symlink?("#{node[:apache][:dir]}/sites-enabled/#{params[:name]}") end
+      only_if do
+        if params[:name] == "default"
+          File.symlink?("#{node[:apache][:dir]}/sites-enabled/000-default")
+        else
+          File.symlink?("#{node[:apache][:dir]}/sites-enabled/#{params[:name]}")
+        end
+      end
     end
   end
 end
