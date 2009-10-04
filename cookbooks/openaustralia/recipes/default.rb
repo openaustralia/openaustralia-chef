@@ -19,6 +19,7 @@ require_recipe 'mysql'
   # Hmmm... I wonder if Apache will start up if the openaustralia app is not installed
   # Temporary workaround: using target path which is absolute rather than relative because otherwise
   # in Chef it causes this link to be recreated on every run. In other words, a small bug in Chef.
+  # TODO: Fix Chef bug and return to using a relative "to" link
   link node[:openaustralia][stage][:html_root] do
     to "#{node[:openaustralia][stage][:install_path]}/current/twfy/www/docs"
   end
