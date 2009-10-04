@@ -1,3 +1,4 @@
+/* Not that this file dna.json.public gets combined with dna.json.private before being fed into chef */
 {
   "recipes": ["openaustralia", "sudo", "ntp", "ssh", "git", "phpmyadmin", "jira", "wordpress", "mediawiki"],
   "authorization": {
@@ -5,6 +6,5 @@
       "users": ["matthewl"]
     }
   },
-  "ssh_port": "1111",
   "oa_domain": "test.org"
 }
