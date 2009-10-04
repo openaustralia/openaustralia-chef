@@ -104,6 +104,7 @@ end
 remote_file "#{node[:jira_install_path]}/atlassian-jira/WEB-INF/lib/jira_git_plugin-0.3-SNAPSHOT.jar" do
   source "http://confluence.atlassian.com/download/attachments/170001263/jira_git_plugin-0.3-SNAPSHOT.jar?version=1"
   owner "www"
+  checksum "232939909aef8ebb7947772b069557b875e56e6579da88dce026a02ccbd9d6fd"
   notifies :restart, resources(:service => "jira")
 end
 
