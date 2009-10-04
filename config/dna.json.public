@@ -3,7 +3,7 @@
   "recipes": ["openaustralia", "sudo", "ntp", "ssh", "git", "phpmyadmin", "jira", "wordpress", "mediawiki"],
   "authorization": {
     "sudo": {
-      "users": ["matthewl"]
+      "users": ["matthewl", "henare"]
     }
   },
   "oa_domain": "test.org"
