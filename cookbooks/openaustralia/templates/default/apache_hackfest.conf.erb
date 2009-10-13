@@ -1,0 +1,4 @@
+<VirtualHost *:80>
+    ServerName hackfest.<%= @node[:oa_domain] %>
+    RedirectMatch ^/(.*) http://sites.google.com/site/openaustraliahackfest/$1
+</VirtualHost>
