@@ -178,6 +178,9 @@
     #RewriteRule /(.+).cgi /down.html [R]
     #RewriteCond %{DOCUMENT_ROOT}/down.html !-s
     #RewriteRule /down.html / [R]
+    
+    # Redirect to dedicated site for OpenAustralia Hackfests
+    RewriteRule ^/hackfest http://sites.google.com/site/openaustraliahackfest/ [QSA]
 </VirtualHost>
 
 # Redirect (301) http://openaustralia.org/foo -> http://www.openaustralia.org/foo
