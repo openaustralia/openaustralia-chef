@@ -1,4 +1,10 @@
+#   create database $database_name character set utf8;
+#   grant all privileges on $database_name.* to '$user'@'localhost' identified by '$password';
+#   flush privileges;
+
 require_recipe 'apache'
+require_recipe 'php'
+require_recipe 'mysql'
 
 # For the time being only setting up the staging environment (:test)
 [:test].each do |stage|
@@ -8,23 +14,6 @@ require_recipe 'apache'
     mode 0755
     recursive true
   end
-
-  # Configuration for OpenAustralia web app
-  #template "#{@node[:openaustralia][stage][:install_path]}/shared/general" do
-  #  source "general.erb"
-  #  owner "matthewl"
-  #  group "matthewl"
-  #  mode 0644
-  #  variables :stage_config => @node[:openaustralia][stage]
-  #end
-
-  #template "#{@node[:openaustralia][stage][:install_path]}/shared/parser_configuration.yml" do
-  #  source "parser_configuration.yml.erb"
-  #  owner "matthewl"
-  #  group "matthewl"
-  #  mode 0644
-  #  variables :stage_config => @node[:openaustralia][stage]
-  #end
 end
 
 template "#{@node[:planningalerts][:test][:install_path]}/shared/config.php" do
