@@ -1,7 +1,7 @@
 /* Not that this file dna.json.public gets combined with dna.json.private before being fed into chef */
 {
   /* include the recipe "ntp" below if testing out on a local virtual machine */
-  "recipes": ["openaustralia", "sudo", "ssh", "git", "phpmyadmin", "jira", "wordpress", "mediawiki"],
+  "recipes": ["openaustralia", "planningalerts", "sudo", "ssh", "git", "phpmyadmin", "jira", "wordpress", "mediawiki"],
   "authorization": {
     "sudo": {
       "users": ["matthewl", "henare"]
@@ -9,5 +9,8 @@
   },
   "openaustralia": {
           "domain": "openaustralia.org"
+  },
+  "planningalerts": {
+          "domain": "planningalerts.org.au"
   }
 }
