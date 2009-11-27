@@ -7,7 +7,7 @@
 
 <VirtualHost *:80>
     DocumentRoot "/www/blog/html"
-    ServerName blog.<%= @node[:oa_domain] %>
+    ServerName blog.<%= @node[:openaustralia][:domain] %>
     ErrorLog "/var/log/blog-error_log"
     CustomLog /var/log/blog-access_log common
 </VirtualHost>

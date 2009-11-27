@@ -12,7 +12,7 @@
 
 <VirtualHost *:80>
     DocumentRoot "/www/test/html"
-    ServerName test.<%= @node[:oa_domain] %>
+    ServerName test.<%= @node[:openaustralia][:domain] %>
     ErrorLog "/var/log/test-error_log"
     CustomLog /var/log/test-access_log common
 

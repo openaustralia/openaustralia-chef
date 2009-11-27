@@ -7,7 +7,7 @@
 
 <VirtualHost *:80>
     DocumentRoot "/www/www/html"
-    ServerName www.<%= @node[:oa_domain] %>
+    ServerName www.<%= @node[:openaustralia][:domain] %>
     ErrorLog "/var/log/www-error_log"
     CustomLog /var/log/www-access_log common
 
@@ -182,6 +182,6 @@
 
 # Redirect (301) http://openaustralia.org/foo -> http://www.openaustralia.org/foo
 <VirtualHost *:80>
-    ServerName <%= @node[:oa_domain] %>
-    RedirectMatch permanent ^/(.*) http://www.<%= @node[:oa_domain] %>/$1
+    ServerName <%= @node[:openaustralia][:domain] %>
+    RedirectMatch permanent ^/(.*) http://www.<%= @node[:openaustralia][:domain] %>/$1
 </VirtualHost>

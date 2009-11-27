@@ -20,7 +20,7 @@ openaustralia[:test][:pingmymap_api_key] = "" unless openaustralia[:test].has_ke
 
 # Making the configuration for the test and production site very similar. We could override this later if so desired
 [:production, :test].each do |stage|
-  openaustralia[stage][:virtual_host_name] = "#{openaustralia[stage][:subdomain]}.#{oa_domain}" unless openaustralia[stage].has_key?(:virtual_host_name)
+  openaustralia[stage][:virtual_host_name] = "#{openaustralia[stage][:subdomain]}.#{openaustralia[:domain]}" unless openaustralia[stage].has_key?(:virtual_host_name)
   openaustralia[stage][:database][:name] = "#{openaustralia_database_name_prefix}_#{stage}" unless openaustralia[stage][:database].has_key?(:name)
   openaustralia[stage][:database][:user] = "#{openaustralia_database_user_prefix}_#{stage}" unless openaustralia[stage][:database].has_key?(:user)
   openaustralia[stage][:install_path] = "/www/#{openaustralia[stage][:subdomain]}/openaustralia" unless openaustralia[stage].has_key?(:install_path)

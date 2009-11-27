@@ -1,4 +1,4 @@
 <VirtualHost *:80>
-    ServerName software.<%= @node[:oa_domain] %>
+    ServerName software.<%= @node[:openaustralia][:domain] %>
 		ProxyPass / http://openaustralia.github.com/openaustralia/
 </VirtualHost>

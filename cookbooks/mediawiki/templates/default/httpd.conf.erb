@@ -7,7 +7,7 @@
 
 <VirtualHost *:80>
     DocumentRoot "/www/wiki/html"
-    ServerName wiki.<%= @node[:oa_domain] %>
+    ServerName wiki.<%= @node[:openaustralia][:domain] %>
     ErrorLog "/var/log/wiki-error_log"
     CustomLog /var/log/wiki-access_log common
 </VirtualHost>

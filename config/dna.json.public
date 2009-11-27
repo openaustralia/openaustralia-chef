@@ -7,5 +7,7 @@
       "users": ["matthewl", "henare"]
     }
   },
-  "oa_domain": "openaustralia.org"
+  "openaustralia": {
+          "domain": "openaustralia.org"
+  }
 }
