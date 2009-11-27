@@ -8,7 +8,7 @@ date_default_timezone_set('Australia/Sydney');
 
 /*  Config vars */
 //Database
-define ("DB_CONNECTION_STRING", 'mysql://planningalerts:planningalerts@localhost/planning');
+define ("DB_CONNECTION_STRING", 'mysql://<%= @node[:planningalerts][:test][:database][:user] %>:<%= @node[:planningalerts][:test][:database][:password] %>@localhost/<%= @node[:planningalerts][:test][:database][:name] %>');
 
 //Smarty
 define ("SMARTY_COMPILE_DIRECTORY", '<%= @node[:planningalerts][:test][:install_path] %>/shared/data/');
