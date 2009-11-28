@@ -14,6 +14,13 @@ require_recipe 'mysql'
     mode 0755
     recursive true
   end
+
+  directory "#{node[:planningalerts][stage][:install_path]}/shared/data" do
+    owner "www"
+    group "www"
+    mode 0755
+    recursive true
+  end
 end
 
 template "#{@node[:planningalerts][:test][:install_path]}/shared/config.php" do
