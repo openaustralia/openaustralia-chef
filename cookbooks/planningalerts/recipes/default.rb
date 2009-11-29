@@ -5,6 +5,7 @@
 require_recipe 'apache'
 require_recipe 'php'
 require_recipe 'mysql'
+require_recipe 'passenger'
 
 # For the time being only setting up the staging environment (:test)
 [:test].each do |stage|
@@ -49,7 +50,7 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   revision "HEAD"
   repo "git://git.openaustralia.org/planningalerts.git"
   # This should not be set to :force_deploy for normal usage
-  action :force_deploy
+  #action :force_deploy
   scm_provider Chef::Provider::Git
   # Override the default rails-like structure
   symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php", "htaccess" => "planningalerts-app/docs/.htaccess"
