@@ -57,6 +57,8 @@ gem_package "mechanize" do
   version "0.9.2"
 end
 
+# TODO: Restart Passenger after deploy
+
 # Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
 deploy_revision node[:planningalerts][:test][:install_path] do
   # Probably should change this to something like a "production" branch so that we have to merge master
@@ -68,9 +70,9 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   scm_provider Chef::Provider::Git
   # Override the default rails-like structure
   symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php"
-  purge_before_symlink []
+  purge_before_symlink ["planningalerts-app/docs/scrapers"]
   create_dirs_before_symlink ["planningalerts-parsers/tmp", "planningalerts-parsers/public"]
-  symlinks "htaccess" => "planningalerts-app/docs/.htaccess"
+  symlinks "htaccess" => "planningalerts-app/docs/.htaccess", "../current/planningalerts-parsers/public" => "planningalerts-app/docs/scrapers"
   enable_submodules true
 end
 

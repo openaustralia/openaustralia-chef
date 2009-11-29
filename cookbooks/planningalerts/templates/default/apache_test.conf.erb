@@ -1,19 +1,26 @@
-<Directory "<%= @node[:planningalerts][:test][:html_root] %>">
-    # TODO: Change these to be restrictive
-    Options All MultiViews
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-
-    AuthType Basic
-    AuthName "Planning Alerts Staging Server"
-    AuthUserFile <%= @node[:planningalerts][:test][:apache_password_file] %>
-    Require user test    
-</Directory>
-
 <VirtualHost *:80>
-    DocumentRoot "<%= @node[:planningalerts][:test][:html_root] %>"
     ServerName <%= @node[:planningalerts][:test][:virtual_host_name] %>
+    DocumentRoot "<%= @node[:planningalerts][:test][:html_root] %>"
+
+    <Directory "<%= @node[:planningalerts][:test][:html_root] %>">
+        # TODO: Change these to be restrictive
+        Options All MultiViews
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+
+        AuthType Basic
+        AuthName "Planning Alerts Staging Server"
+        AuthUserFile <%= @node[:planningalerts][:test][:apache_password_file] %>
+        Require user test    
+    </Directory>
+
+    RackEnv development
+    RackBaseURI /scrapers
+    <Directory "<%= @node[:planningalerts][:test][:html_root] %>/scrapers" >
+      Options -MultiViews
+    </Directory>
+    
     ErrorLog "/var/log/<%= @node[:planningalerts][:test][:name] %>-error_log"
     CustomLog /var/log/<%= @node[:planningalerts][:test][:name] %>-access_log common
 
