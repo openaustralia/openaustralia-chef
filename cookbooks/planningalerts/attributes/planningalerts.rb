@@ -14,5 +14,4 @@ planningalerts[:test][:subdomain] = "test" unless planningalerts[:test].has_key?
   planningalerts[stage][:html_root] = "#{planningalerts[stage][:install_path]}/current/planningalerts-app/docs" unless planningalerts[stage].has_key?(:html_root)
 end
 
-# TODO: Change this to something to works!
 planningalerts[:test][:apache_password_file] = "#{planningalerts[:test][:install_path]}/shared/htpasswd" unless planningalerts[:test].has_key?(:apache_password_file)

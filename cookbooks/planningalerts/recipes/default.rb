@@ -37,6 +37,10 @@ template "#{@node[:planningalerts][:test][:install_path]}/shared/htaccess" do
   mode 0644  
 end
 
+remote_file @node[:planningalerts][:test][:apache_password_file] do
+  source "htpasswd"
+  mode 0644
+end
 
 # Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
 deploy_revision node[:planningalerts][:test][:install_path] do

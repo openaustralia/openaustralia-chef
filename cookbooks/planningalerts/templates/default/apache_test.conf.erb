@@ -5,10 +5,10 @@
     Order allow,deny
     Allow from all
 
-    #AuthType Basic
-    #AuthName "PlanningAlerts Staging Server"
-    #AuthUserFile <%= @node[:planningalerts][:test][:apache_password_file] %>
-    #Require user test    
+    AuthType Basic
+    AuthName "Planning Alerts Staging Server"
+    AuthUserFile <%= @node[:planningalerts][:test][:apache_password_file] %>
+    Require user test    
 </Directory>
 
 <VirtualHost *:80>
