@@ -53,10 +53,10 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   #action :force_deploy
   scm_provider Chef::Provider::Git
   # Override the default rails-like structure
-  symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php", "htaccess" => "planningalerts-app/docs/.htaccess"
+  symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php"
   purge_before_symlink []
-  create_dirs_before_symlink []
-  symlinks "foo" => "bar"
+  create_dirs_before_symlink ["planningalerts-parsers/tmp", "planningalerts-parsers/public"]
+  symlinks "htaccess" => "planningalerts-app/docs/.htaccess"
   enable_submodules true
 end
 
