@@ -11,7 +11,7 @@ planningalerts[:test][:subdomain] = "test" unless planningalerts[:test].has_key?
   planningalerts[stage][:name] = "#{planningalerts[stage][:subdomain]}.planningalerts" unless planningalerts[stage].has_key?(:name)
   planningalerts[stage][:virtual_host_name] = "#{planningalerts[stage][:subdomain]}.#{planningalerts[:domain]}" unless planningalerts[stage].has_key?(:virtual_host_name)
   planningalerts[stage][:install_path] = "/www/#{planningalerts[stage][:name]}/app" unless planningalerts[stage].has_key?(:install_path)
-  planningalerts[stage][:html_root] = "#{planningalerts[stage][:install_path]}/current/docs" unless planningalerts[stage].has_key?(:html_root)
+  planningalerts[stage][:html_root] = "#{planningalerts[stage][:install_path]}/current/planningalerts-app/docs" unless planningalerts[stage].has_key?(:html_root)
 end
 
 # TODO: Change this to something to works!

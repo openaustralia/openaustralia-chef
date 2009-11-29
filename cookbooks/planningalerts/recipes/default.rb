@@ -43,15 +43,16 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   # Probably should change this to something like a "production" branch so that we have to merge master
   # into the production branch before it will deploy
   revision "HEAD"
-  repo "git://git.openaustralia.org/planningalerts-app.git"
+  repo "git://git.openaustralia.org/planningalerts.git"
   # This should not be set to :force_deploy for normal usage
   action :force_deploy
   scm_provider Chef::Provider::Git
   # Override the default rails-like structure
-  symlink_before_migrate "config.php" => "docs/include/config.php", "htaccess" => "docs/.htaccess"
+  symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php", "htaccess" => "planningalerts-app/docs/.htaccess"
   purge_before_symlink []
   create_dirs_before_symlink []
   symlinks "foo" => "bar"
+  enable_submodules true
 end
 
 template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][:test][:name]}" do
