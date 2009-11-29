@@ -43,6 +43,20 @@ remote_file @node[:planningalerts][:test][:apache_password_file] do
   mode 0644
 end
 
+gem_package "sinatra"
+gem_package "builder"
+# Required to run the unit tests
+gem_package "rack-test"
+# Package libxslt is required by nokogiri
+package "libxslt" do
+  source "ports"
+end
+# Use a recent version of mechanize. Should hopefully not conflict with the earlier version currently
+# required by the openaustralia parser
+gem_package "mechanize" do
+  version "0.9.2"
+end
+
 # Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
 deploy_revision node[:planningalerts][:test][:install_path] do
   # Probably should change this to something like a "production" branch so that we have to merge master
