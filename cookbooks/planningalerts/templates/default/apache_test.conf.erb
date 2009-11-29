@@ -15,11 +15,11 @@
         Require user test    
     </Directory>
 
-    RackEnv development
-    RackBaseURI /scrapers
-    <Directory "<%= @node[:planningalerts][:test][:html_root] %>/scrapers" >
-      Options -MultiViews
-    </Directory>
+    #RackEnv development
+    #RackBaseURI /scrapers
+    #<Directory "<%= @node[:planningalerts][:test][:html_root] %>/scrapers" >
+    #  Options -MultiViews
+    #</Directory>
     
     ErrorLog "/var/log/<%= @node[:planningalerts][:test][:name] %>-error_log"
     CustomLog /var/log/<%= @node[:planningalerts][:test][:name] %>-access_log common
