@@ -6,6 +6,7 @@ require_recipe 'apache'
 require_recipe 'php'
 require_recipe 'mysql'
 #require_recipe 'passenger'
+require_recipe 'thin'
 
 # For the time being only setting up the staging environment (:test)
 [:test].each do |stage|
@@ -57,6 +58,14 @@ gem_package "mechanize" do
   version "0.9.2"
 end
 
+directory "#{@node[:planningalerts][:test][:install_path]}/shared/pids"
+
+# Configuration for Thin server to start the planningalerts-parsers app
+# At the moment the thin cookbook can only support one application. Should fix that really.
+template "/usr/local/etc/thin.yml" do
+  source "thin.yml.erb"
+end
+
 # TODO: Restart Passenger after deploy
 
 # Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
@@ -72,7 +81,10 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php"
   purge_before_symlink ["planningalerts-app/docs/scrapers"]
   create_dirs_before_symlink ["planningalerts-parsers/tmp", "planningalerts-parsers/public"]
-  symlinks "htaccess" => "planningalerts-app/docs/.htaccess", "../current/planningalerts-parsers/public" => "planningalerts-app/docs/scrapers"
+  symlinks "htaccess" => "planningalerts-app/docs/.htaccess",
+    "../current/planningalerts-parsers/public" => "planningalerts-app/docs/scrapers",
+    "pids" => "planningalerts-parsers/tmp/pids",
+    "log" => "planningalerts-parsers/log"
   enable_submodules true
 end
 

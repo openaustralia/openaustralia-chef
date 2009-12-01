@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# PROVIDE: thin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="thin"
+rcvar=`set_rcvar`
+
+load_rc_config $name
+
+: ${thin_enable="NO"}
+
+# pidfile='<%= @node[:planningalerts][:test][:install_path] %>/shared/pids/thin.pid'
+# procname='ruby18'
+
+start_cmd="thin start -C /usr/local/etc/thin.yml"
+stop_cmd="thin stop -C /usr/local/etc/thin.yml"
+restart_cmd="thin restart -C /usr/local/etc/thin.yml"
+
+run_rc_command "$1"
