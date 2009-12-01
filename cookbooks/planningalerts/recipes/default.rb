@@ -58,6 +58,15 @@ gem_package "mechanize" do
   version "0.9.2"
 end
 
+# Also need a recent version of nokogiri
+gem_package "nokogiri" do
+  version "1.3.3"
+end
+
+package "php5-simplexml" do
+  source "ports"
+end
+
 directory "#{@node[:planningalerts][:test][:install_path]}/shared/pids"
 
 # TODO: Restart Passenger after deploy
