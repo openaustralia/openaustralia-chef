@@ -60,12 +60,6 @@ end
 
 directory "#{@node[:planningalerts][:test][:install_path]}/shared/pids"
 
-# Configuration for Thin server to start the planningalerts-parsers app
-# At the moment the thin cookbook can only support one application. Should fix that really.
-template "/usr/local/etc/thin.yml" do
-  source "thin.yml.erb"
-end
-
 # TODO: Restart Passenger after deploy
 
 # Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
