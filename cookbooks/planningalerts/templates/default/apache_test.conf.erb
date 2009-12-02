@@ -23,7 +23,8 @@
       # Even though this directory is password protected - allow localhost
       # access to this directory without a password
       Order allow,deny
-      Allow from localhost
+      # Trying hardcoded IP address of the server as a last resort
+      Allow from 122.100.2.249
       Satisfy any
     </Directory>
     
