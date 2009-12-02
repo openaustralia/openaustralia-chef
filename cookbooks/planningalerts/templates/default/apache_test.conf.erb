@@ -19,6 +19,12 @@
     RackBaseURI /scrapers
     <Directory "<%= @node[:planningalerts][:test][:html_root] %>/scrapers" >
       Options -MultiViews
+      
+      # Even though this directory is password protected - allow localhost
+      # access to this directory without a password
+      Order allow,deny
+      Allow from localhost
+      Satisfy any
     </Directory>
     
     ErrorLog "/var/log/<%= @node[:planningalerts][:test][:name] %>-error_log"
