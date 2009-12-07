@@ -21,6 +21,7 @@ define ("PEAR_LOCATION", 'PEAR');
 //URL Stuff
 define ("BASE_URL", 'http://<%= @node[:planningalerts][:test][:virtual_host_name] %>');
 define ("DOMAIN", '<%= @node[:planningalerts][:test][:virtual_host_name] %>');
+define ("INTERNAL_SCRAPERS_INDEX_URL", 'http://<%= @node[:planningalerts][:test][:virtual_host_name] %>/scrapers/');
 
 //Scrape method (Curl vs PEAR HTTP)
 define ("SCRAPE_METHOD", 'PEAR');
