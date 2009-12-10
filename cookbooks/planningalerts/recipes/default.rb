@@ -69,6 +69,13 @@ end
 
 directory "#{@node[:planningalerts][:test][:install_path]}/shared/pids"
 
+# Bits and pieces needed for the exception mailer for Sinatra
+gem_package "rack-rack-contrib" do
+  source "http://gems.github.com/"
+end
+
+gem_package "tmail"
+
 # TODO: Restart Passenger after deploy
 
 # Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
