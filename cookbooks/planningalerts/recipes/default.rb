@@ -20,7 +20,9 @@ require_recipe 'passenger'
   directory "#{node[:planningalerts][stage][:install_path]}/shared/data" do
     owner "www"
     group "www"
-    mode 0755
+    # Making this writeable by everybody so that the mailer can be run as any user
+    # Just a convenience thing. Really should look at this in more detail
+    mode 0777
     recursive true
   end
 end
