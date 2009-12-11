@@ -12,7 +12,7 @@ define ("DB_CONNECTION_STRING", 'mysql://<%= @node[:planningalerts][:test][:data
 
 //Smarty
 define ("SMARTY_COMPILE_DIRECTORY", '<%= @node[:planningalerts][:test][:install_path] %>/shared/data/');
-define ("SMARTY_TEMPLATE_DIRECTORY", '<%= @node[:planningalerts][:test][:install_path] %>/current/docs/templates/');
+define ("SMARTY_TEMPLATE_DIRECTORY", '<%= @node[:planningalerts][:test][:html_root] %>/templates/');
 define ("SMARTY_PATH", '');
 
 //PEAR
