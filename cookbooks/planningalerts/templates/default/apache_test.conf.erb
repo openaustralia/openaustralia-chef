@@ -2,6 +2,13 @@
     ServerName <%= @node[:planningalerts][:test][:virtual_host_name] %>
     DocumentRoot "<%= @node[:planningalerts][:test][:html_root] %>"
 
+    # Make the api accessible without a password so that you can display the GeoRSS feeds on Google Maps
+    <Files "api.php">
+      Order allow,deny
+      Allow from all
+      Satisfy any
+    </Files>
+        
     <Directory "<%= @node[:planningalerts][:test][:html_root] %>">
         # TODO: Change these to be restrictive
         Options All MultiViews
