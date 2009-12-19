@@ -82,9 +82,7 @@ gem_package "tmail"
 
 # Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
 deploy_revision node[:planningalerts][:test][:install_path] do
-  # Probably should change this to something like a "production" branch so that we have to merge master
-  # into the production branch before it will deploy
-  revision "HEAD"
+  revision "test"
   repo "git://git.openaustralia.org/planningalerts.git"
   # This should not be set to :force_deploy for normal usage
   #action :force_deploy
