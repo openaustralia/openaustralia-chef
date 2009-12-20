@@ -43,7 +43,7 @@ remote_file @node[:planningalerts][:test][:apache_password_file] do
 end
 
 # For the time being only setting up the staging environment (:test)
-[:test].each do |stage|
+[:production, :test].each do |stage|
   directory node[:planningalerts][stage][:install_path] do
     owner "matthewl"
     group "matthewl"
@@ -97,16 +97,17 @@ end
       "log" => "planningalerts-parsers/log"
     enable_submodules true
   end
-end
 
-template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][:test][:name]}" do
-  source "apache_test.conf.erb"
-  mode 0644
-  owner "root"
-  group "wheel"
-end
+  template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][stage][:name]}" do
+    source "apache_#{stage}.conf.erb"
+    mode 0644
+    owner "root"
+    group "wheel"
+    variables :stage => stage
+  end
 
-apache_site @node[:planningalerts][:test][:name]
+  apache_site @node[:planningalerts][stage][:name]
+end
 
 # For deployments code is stored on the server. So, for testing make sure that you push the code
 # to the test server
