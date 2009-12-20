@@ -6,7 +6,6 @@ require_recipe 'apache'
 require_recipe 'php'
 require_recipe 'mysql'
 require_recipe 'passenger'
-#require_recipe 'thin'
 
 # For the time being only setting up the staging environment (:test)
 [:test].each do |stage|
