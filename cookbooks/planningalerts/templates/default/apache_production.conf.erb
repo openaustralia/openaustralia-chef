@@ -21,3 +21,9 @@
 
     #ErrorDocument 404 /404.php
 </VirtualHost>
+
+# Redirect (301) http://planningalerts.org.au/foo -> http://www.planningalerts.org.au/foo
+<VirtualHost *:80>
+    ServerName <%= @node[:planningalerts][:domain] %>
+    RedirectMatch permanent ^/(.*) http://www.<%= @node[:planningalerts][:domain] %>/$1
+</VirtualHost>
