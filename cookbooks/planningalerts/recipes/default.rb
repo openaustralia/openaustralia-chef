@@ -7,6 +7,41 @@ require_recipe 'php'
 require_recipe 'mysql'
 require_recipe 'passenger'
 
+gem_package "sinatra"
+gem_package "builder"
+# Required to run the unit tests
+gem_package "rack-test"
+# Package libxslt is required by nokogiri
+package "libxslt" do
+  source "ports"
+end
+# Use a recent version of mechanize. Should hopefully not conflict with the earlier version currently
+# required by the openaustralia parser
+gem_package "mechanize" do
+  version "0.9.2"
+end
+
+# Also need a recent version of nokogiri
+gem_package "nokogiri" do
+  version "1.3.3"
+end
+
+package "php5-simplexml" do
+  source "ports"
+end
+
+# Bits and pieces needed for the exception mailer for Sinatra
+gem_package "rack-rack-contrib" do
+  source "http://gems.github.com/"
+end
+
+gem_package "tmail"
+
+remote_file @node[:planningalerts][:test][:apache_password_file] do
+  source "htpasswd"
+  mode 0644
+end
+
 # For the time being only setting up the staging environment (:test)
 [:test].each do |stage|
   directory node[:planningalerts][stage][:install_path] do
@@ -40,63 +75,28 @@ require_recipe 'passenger'
     mode 0644
     variables :stage => stage
   end
-end
 
-remote_file @node[:planningalerts][:test][:apache_password_file] do
-  source "htpasswd"
-  mode 0644
-end
+  directory "#{@node[:planningalerts][stage][:install_path]}/shared/pids"
+  
+  # TODO: Restart Passenger after deploy
 
-gem_package "sinatra"
-gem_package "builder"
-# Required to run the unit tests
-gem_package "rack-test"
-# Package libxslt is required by nokogiri
-package "libxslt" do
-  source "ports"
-end
-# Use a recent version of mechanize. Should hopefully not conflict with the earlier version currently
-# required by the openaustralia parser
-gem_package "mechanize" do
-  version "0.9.2"
-end
-
-# Also need a recent version of nokogiri
-gem_package "nokogiri" do
-  version "1.3.3"
-end
-
-package "php5-simplexml" do
-  source "ports"
-end
-
-directory "#{@node[:planningalerts][:test][:install_path]}/shared/pids"
-
-# Bits and pieces needed for the exception mailer for Sinatra
-gem_package "rack-rack-contrib" do
-  source "http://gems.github.com/"
-end
-
-gem_package "tmail"
-
-# TODO: Restart Passenger after deploy
-
-# Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
-deploy_revision node[:planningalerts][:test][:install_path] do
-  revision "test"
-  repo "git://git.openaustralia.org/planningalerts.git"
-  # This should not be set to :force_deploy for normal usage
-  #action :force_deploy
-  scm_provider Chef::Provider::Git
-  # Override the default rails-like structure
-  symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php"
-  purge_before_symlink ["planningalerts-app/docs/scrapers"]
-  create_dirs_before_symlink ["planningalerts-parsers/tmp", "planningalerts-parsers/public"]
-  symlinks "htaccess" => "planningalerts-app/docs/.htaccess",
-    "../current/planningalerts-parsers/public" => "planningalerts-app/docs/scrapers",
-    "pids" => "planningalerts-parsers/tmp/pids",
-    "log" => "planningalerts-parsers/log"
-  enable_submodules true
+  # Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
+  deploy_revision node[:planningalerts][stage][:install_path] do
+    revision stage.to_s
+    repo "git://git.openaustralia.org/planningalerts.git"
+    # This should not be set to :force_deploy for normal usage
+    #action :force_deploy
+    scm_provider Chef::Provider::Git
+    # Override the default rails-like structure
+    symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php"
+    purge_before_symlink ["planningalerts-app/docs/scrapers"]
+    create_dirs_before_symlink ["planningalerts-parsers/tmp", "planningalerts-parsers/public"]
+    symlinks "htaccess" => "planningalerts-app/docs/.htaccess",
+      "../current/planningalerts-parsers/public" => "planningalerts-app/docs/scrapers",
+      "pids" => "planningalerts-parsers/tmp/pids",
+      "log" => "planningalerts-parsers/log"
+    enable_submodules true
+  end
 end
 
 template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][:test][:name]}" do
