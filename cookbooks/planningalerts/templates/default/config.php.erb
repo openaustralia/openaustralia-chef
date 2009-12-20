@@ -43,4 +43,6 @@ define ("LOG_EMAIL", 'matthew@openaustralia.org');
 //Google maps key
 define ("GOOGLE_MAPS_KEY", '<%= @node[:planningalerts][:google_maps_api_key] %>');
 
+//Google Analytics key
+define ("GOOGLE_ANALYTICS_KEY", '<%= @node[:planningalerts][@stage][:google_analytics_key] %>')
 ?>
