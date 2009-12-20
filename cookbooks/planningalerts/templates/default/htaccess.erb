@@ -1,1 +1,1 @@
-php_value include_path ".:<%= @node[:planningalerts][:test][:html_root] %>/include/:<%= @node[:planningalerts][:test][:html_root] %>/include/PEAR"
+php_value include_path ".:<%= @node[:planningalerts][@stage][:html_root] %>/include/:<%= @node[:planningalerts][@stage][:html_root] %>/include/PEAR"

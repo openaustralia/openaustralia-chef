@@ -8,20 +8,20 @@ date_default_timezone_set('Australia/Sydney');
 
 /*  Config vars */
 //Database
-define ("DB_CONNECTION_STRING", 'mysql://<%= @node[:planningalerts][:test][:database][:user] %>:<%= @node[:planningalerts][:test][:database][:password] %>@localhost/<%= @node[:planningalerts][:test][:database][:name] %>');
+define ("DB_CONNECTION_STRING", 'mysql://<%= @node[:planningalerts][@stage][:database][:user] %>:<%= @node[:planningalerts][@stage][:database][:password] %>@localhost/<%= @node[:planningalerts][@stage][:database][:name] %>');
 
 //Smarty
-define ("SMARTY_COMPILE_DIRECTORY", '<%= @node[:planningalerts][:test][:install_path] %>/shared/data/');
-define ("SMARTY_TEMPLATE_DIRECTORY", '<%= @node[:planningalerts][:test][:html_root] %>/templates/');
+define ("SMARTY_COMPILE_DIRECTORY", '<%= @node[:planningalerts][@stage][:install_path] %>/shared/data/');
+define ("SMARTY_TEMPLATE_DIRECTORY", '<%= @node[:planningalerts][@stage][:html_root] %>/templates/');
 define ("SMARTY_PATH", '');
 
 //PEAR
 define ("PEAR_LOCATION", 'PEAR');
 
 //URL Stuff
-define ("BASE_URL", 'http://<%= @node[:planningalerts][:test][:virtual_host_name] %>');
-define ("DOMAIN", '<%= @node[:planningalerts][:test][:virtual_host_name] %>');
-define ("INTERNAL_SCRAPERS_INDEX_URL", 'http://<%= @node[:planningalerts][:test][:virtual_host_name] %>/scrapers/');
+define ("BASE_URL", 'http://<%= @node[:planningalerts][@stage][:virtual_host_name] %>');
+define ("DOMAIN", '<%= @node[:planningalerts][@stage][:virtual_host_name] %>');
+define ("INTERNAL_SCRAPERS_INDEX_URL", 'http://<%= @node[:planningalerts][@stage][:virtual_host_name] %>/scrapers/');
 
 //Scrape method (Curl vs PEAR HTTP)
 define ("SCRAPE_METHOD", 'PEAR');

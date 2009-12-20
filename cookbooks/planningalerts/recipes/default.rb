@@ -25,20 +25,22 @@ require_recipe 'passenger'
     mode 0777
     recursive true
   end
-end
-
-template "#{@node[:planningalerts][:test][:install_path]}/shared/config.php" do
-  source "config.php.erb"
-  owner "matthewl"
-  group "matthewl"
-  mode 0644
-end
-
-template "#{@node[:planningalerts][:test][:install_path]}/shared/htaccess" do
-  source "htaccess.erb"
-  owner "matthewl"
-  group "matthewl"
-  mode 0644  
+  
+  template "#{@node[:planningalerts][stage][:install_path]}/shared/config.php" do
+    source "config.php.erb"
+    owner "matthewl"
+    group "matthewl"
+    mode 0644
+    variables :stage => stage
+  end
+  
+  template "#{@node[:planningalerts][stage][:install_path]}/shared/htaccess" do
+    source "htaccess.erb"
+    owner "matthewl"
+    group "matthewl"
+    mode 0644
+    variables :stage => stage
+  end
 end
 
 remote_file @node[:planningalerts][:test][:apache_password_file] do
