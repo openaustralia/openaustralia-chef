@@ -18,6 +18,8 @@ procname='java'
 
 export JAVA_HOME=/usr/local/diablo-jdk1.6.0
 export CATALINA_PID=$pidfile
+# Crazy. Have to set the local time zone for the the JVM
+export JAVA_OPTS=-Duser.timezone=<%= @node[:jira_timezone] %>
 
 start_cmd="su -m <%= @node[:jira_run_user] %> -c 'sh -c \"<%= @node[:jira_install_path] %>/bin/startup.sh\"'"
 stop_cmd="<%= @node[:jira_install_path] %>/bin/shutdown.sh"
