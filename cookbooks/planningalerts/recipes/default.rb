@@ -37,6 +37,24 @@ end
 
 gem_package "tmail"
 
+# Required by the edala scraper (written in php)
+package "pear-Net_URL" do
+  source "ports"
+end
+
+package "php5-tidy" do
+  source "ports"
+end
+
+# Required by the Kogarah scraper (written in perl)
+package "p5-HTML-TableExtract" do
+  source "ports"
+end
+
+package "p5-HTML-Element-Extended" do
+  source "ports"
+end
+
 remote_file @node[:planningalerts][:test][:apache_password_file] do
   source "htpasswd"
   mode 0644
