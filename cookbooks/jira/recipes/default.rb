@@ -31,15 +31,16 @@ include_recipe "apache"
 
 unless File.exists?(node[:jira_install_path])
   puts "Downloading and installing jira to #{node[:jira_install_path]}..."
+  
   remote_file "jira" do
-    path "/tmp/jira.tar.gz"
-    source "http://downloads.atlassian.com/software/jira/downloads/atlassian-jira-#{node[:jira_version]}-standalone.tar.gz"
+    path "/tmp/jira-#{node[:jira_version]}.tar.gz"
+    source "http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-#{node[:jira_version]}-standalone.tar.gz"
     not_if { File.exists?(path) }
   end
   
   # Hmmm... Making the untar verbose (with the 'v' option) makes this command hang on FreeBSD
   execute "untar-jira" do
-    command "(cd /tmp; tar zxf /tmp/jira.tar.gz)"
+    command "(cd /tmp; tar zxf /tmp/jira-#{node[:jira_version]}.tar.gz)"
   end
   
   execute "install-jira" do
@@ -72,7 +73,18 @@ template "#{node[:jira_install_path]}/conf/server.xml" do
   owner "root"
   mode 0755
 end
-  
+
+# 'Home' Directory
+directory "#{node[:jira_install_path]}/data" do
+  owner "www"
+end
+
+template "#{node[:jira_install_path]}/atlassian-jira/WEB-INF/classes/jira-application.properties" do
+  source "jira-application.properties.erb"
+  owner "root"
+  mode 0755
+end
+
 template "#{node[:jira_install_path]}/atlassian-jira/WEB-INF/classes/entityengine.xml" do
   source "entityengine.xml.erb"
   owner "root"
@@ -90,21 +102,23 @@ end
 
 apache_site node[:jira_subdomain]
 
-template "/usr/local/etc/rc.d/jira" do
+template "/usr/local/etc/rc.d/jira4" do
   source "jira.erb"
   mode 0555
 end
 
-service "jira" do
+service "jira4" do
   supports :start => true, :stop => true, :status => true
   action [:enable, :start]
 end
 
+# The Git plugin appears not to work with Jira 4.0 yet. The main project page comes up empty when it's installed.
+
 # Install Jira plugin for Git
-remote_file "#{node[:jira_install_path]}/atlassian-jira/WEB-INF/lib/jira_git_plugin-0.3-SNAPSHOT.jar" do
-  source "http://confluence.atlassian.com/download/attachments/170001263/jira_git_plugin-0.3-SNAPSHOT.jar?version=1"
-  owner "www"
-  checksum "232939909aef8ebb7947772b069557b875e56e6579da88dce026a02ccbd9d6fd"
-  notifies :restart, resources(:service => "jira")
-end
+#remote_file "#{node[:jira_install_path]}/atlassian-jira/WEB-INF/lib/jira_git_plugin-0.4.jar" do
+#  source "https://maven.atlassian.com/contrib/com/xiplink/jira/git/jira_git_plugin/0.4/jira_git_plugin-0.4.jar"
+#  owner "www"
+#  checksum "91ca4fecbab16827f504c2a2e34d07fd8eda6a7b"
+#  notifies :restart, resources(:service => "jira4")
+#end
 

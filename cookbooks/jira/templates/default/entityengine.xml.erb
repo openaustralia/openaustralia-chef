@@ -97,7 +97,7 @@ If you not using the 12 preconfigured DBs, you may also need to add your own fie
 
         PLEASE DO NOT set the use-foreign-key* values to "true" as JIRA does not currently support this.
      -->
-    <datasource name="defaultDS" field-type-name="<%= @node[:jira_database] %>"
+    <datasource name="defaultDS" field-type-name="mysql"
       helper-class="org.ofbiz.core.entity.GenericHelperDAO"
       check-on-start="true"
       use-foreign-keys="false"
@@ -108,7 +108,7 @@ If you not using the 12 preconfigured DBs, you may also need to add your own fie
       check-indices-on-start="true">
         <jndi-jdbc jndi-server-name="default" jndi-name="java:comp/env/jdbc/JiraDS"/>
 <!-- Orion format: <jndi-jdbc jndi-server-name="default" jndi-name="jdbc/JiraDS"/> -->
-<!-- JBoss format: <jndi-jdbc jndi-server-name="default" jndi-name="java:/DefaultDS"/> -->
+<!-- JBoss format: <jndi-jdbc jndi-server-name="default" jndi-name="java:/JiraDS"/> -->
 <!-- Weblogic format: <jndi-jdbc jndi-server-name="default" jndi-name="JiraDS"/> -->
     </datasource>
 </entity-config>
