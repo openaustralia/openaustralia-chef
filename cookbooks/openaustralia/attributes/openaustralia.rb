@@ -1,5 +1,6 @@
 # Common bits of configuration 
 openaustralia_email_contact "contact@openaustralia.org" unless attribute?("openaustralia_email_contact")
+openaustralia_email_bugs "web-administrators@openaustralia.org" unless attribute?("openaustralia_email_bugs")
 openaustralia_database_name_prefix "openaustralia" unless attribute?("openaustralia_database_name_prefix")
 openaustralia_database_user_prefix "oa" unless attribute?("openaustralia_database_user_prefix")
 openaustralia Mash.new unless attribute?("openaustralia")
