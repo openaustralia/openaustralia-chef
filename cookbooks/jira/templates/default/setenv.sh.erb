@@ -1,0 +1,22 @@
+PRGDIR=`dirname $0`
+JAVA_OPTS="-Xms<%= @node[:jira_mem_initsize] %>m -Xmx<%= @node[:jira_mem_maxsize] %>m $JAVA_OPTS -Djava.awt.headless=true -Datlassian.standalone=JIRA -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dmail.mime.decodeparameters=true "
+
+# Perm Gen size needs to be increased if encountering OutOfMemoryError: PermGen problems. Specifying PermGen size is not valid on IBM JDKs
+JIRA_MAX_PERM_SIZE=256m
+if [ -f "${PRGDIR}/permgen.sh" ]; then
+    echo "Detecting JVM PermGen support..."
+    . ${PRGDIR}/permgen.sh
+    if [ $JAVA_PERMGEN_SUPPORTED = "true" ]; then
+        echo "PermGen switch is supported. Setting to ${JIRA_MAX_PERM_SIZE}"
+        JAVA_OPTS="-XX:MaxPermSize=${JIRA_MAX_PERM_SIZE} ${JAVA_OPTS}"
+    else
+        echo "PermGen switch is NOT supported and will NOT be set automatically."
+    fi
+fi
+
+# use this if you want to import data without notifications
+#JAVA_OPTS=" -Datlassian.mail.senddisabled=true -Datlassian.mail.fetchdisabled=true -Datlassian.mail.popdisabled=true $JAVA_OPTS "
+
+export JAVA_OPTS
+
+echo "If you encounter issues starting up JIRA Standalone Edition, please see the Troubleshooting guide at http://confluence.atlassian.com/display/JIRA/Installation+Troubleshooting+Guide"

@@ -91,6 +91,12 @@ template "#{node[:jira_install_path]}/atlassian-jira/WEB-INF/classes/entityengin
   mode 0755
 end
 
+template "#{node[:jira_install_path]}/bin/setenv.sh" do
+  source "setenv.sh.erb"
+  owner "root"
+  mode 0755
+end
+
 apache_module "proxy"
 apache_module "proxy_http"
 
@@ -121,4 +127,3 @@ end
 #  checksum "91ca4fecbab16827f504c2a2e34d07fd8eda6a7b"
 #  notifies :restart, resources(:service => "jira4")
 #end
-
