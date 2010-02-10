@@ -156,9 +156,11 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   scm_provider Chef::Provider::Git
   symlink_before_migrate "config/database.yml" => "planningalerts-app/config/database.yml"
   purge_before_symlink ["planningalerts-app/log", "planningalerts-app/tmp/pids", "planningalerts-app/public/system"]
-  create_dirs_before_symlink ["planningalerts-app/tmp", "planningalerts-app/public", "planningalerts-app/config"]
+  create_dirs_before_symlink ["planningalerts-app/tmp", "planningalerts-app/public", "planningalerts-app/config",
+    "planningalerts-parsers/public"]
   symlinks "system" => "planningalerts-app/public/system", "pids" => "planningalerts-app/tmp/pids",
-    "log" => "planningalerts-app/log"
+    "log" => "planningalerts-app/log",
+    "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
   enable_submodules true
 end
 
