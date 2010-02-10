@@ -1,0 +1,26 @@
+# Stores application configuration settings
+module Configuration
+  # URL Stuff
+  HOST = '<%= @node[:planningalerts][@stage][:virtual_host_name] %>'
+  INTERNAL_SCRAPERS_INDEX_URL = 'http://<%= @node[:planningalerts][@stage][:virtual_host_name] %>/scrapers/'
+  
+  # Size of alert areas
+  SMALL_ZONE_SIZE = 200
+  MEDIUM_ZONE_SIZE = 800
+  LARGE_ZONE_SIZE = 2000
+  ZONE_BUFFER_PERCENTAGE = 5
+
+  # Email setup
+  EMAIL_FROM_ADDRESS = 'contact@planningalerts.org.au'
+  EMAIL_FROM_NAME = 'PlanningAlerts.org.au'
+
+  # Scraper params
+  SCRAPE_DELAY = 5
+  LOG_EMAIL = 'web-administrators@openaustralia.org'
+
+  # Google maps key
+  GOOGLE_MAPS_KEY = '<%= @node[:planningalerts][:google_maps_api_key] %>'
+
+  # Google Analytics key
+  GOOGLE_ANALYTICS_KEY = '<%= @node[:planningalerts][@stage][:google_analytics_key] %>'
+end

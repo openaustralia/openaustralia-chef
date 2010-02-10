@@ -164,6 +164,12 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   enable_submodules true
 end
 
+# TODO: We need to kick passenger when we change this file
+template "#{@node[:planningalerts][:test][:install_path]}/current/planningalerts-app/app/models/configuration.rb" do
+  source "configuration.rb.erb"
+  variables :stage => :test
+end
+
 [:production, :test].each do |stage|
   template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][stage][:name]}" do
     source "apache_#{stage}.conf.erb"
