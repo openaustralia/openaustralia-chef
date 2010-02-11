@@ -161,14 +161,25 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   symlinks "system" => "planningalerts-app/public/system", "pids" => "planningalerts-app/tmp/pids",
     "log" => "planningalerts-app/log",
     "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
-  restart_command "touch tmp/restart.txt"  
+  # We'll wait until the configuration gets overridden below before we restart passenger. So, below is commented out
+  #restart_command "touch planningalerts-app/tmp/restart.txt"  
   enable_submodules true
+end
+
+ruby_block "restart planningalerts" do
+  block do
+    require 'fileutils'
+    FileUtils.touch("#{node[:planningalerts][:test][:install_path]}/current/planningalerts-app/tmp/restart.txt")
+  end
+  # Only run this when it gets notified by others
+  action :nothing
 end
 
 # TODO: We need to kick passenger (touch tmp/restart.txt) when we change this file
 template "#{@node[:planningalerts][:test][:install_path]}/current/planningalerts-app/app/models/configuration.rb" do
   source "configuration.rb.erb"
   variables :stage => :test
+  notifies :create, resources(:ruby_block => "restart planningalerts"), :immediately
 end
 
 [:production, :test].each do |stage|
