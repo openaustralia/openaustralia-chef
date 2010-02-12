@@ -161,10 +161,11 @@ deploy_revision node[:planningalerts][:test][:install_path] do
   symlinks "system" => "planningalerts-app/public/system", "pids" => "planningalerts-app/tmp/pids",
     "log" => "planningalerts-app/log",
     "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
+  restart_command "touch tmp/restart.txt"  
   enable_submodules true
 end
 
-# TODO: We need to kick passenger when we change this file
+# TODO: We need to kick passenger (touch tmp/restart.txt) when we change this file
 template "#{@node[:planningalerts][:test][:install_path]}/current/planningalerts-app/app/models/configuration.rb" do
   source "configuration.rb.erb"
   variables :stage => :test
