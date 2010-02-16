@@ -9,10 +9,8 @@
     #  Satisfy any
     #</Files>
     
+    RailsEnv development
     <Directory <%= @node[:planningalerts][@stage][:html_root] %>>
-      RailsEnv development
-      # Disable recognition of php files in this directory
-      RemoveType .php
       Order allow,deny
       Allow from all
       Options -MultiViews
@@ -23,9 +21,9 @@
       Require user test    
     </Directory>
         
+    RackBaseURI /scrapers
+    RackEnv development
     <Directory "<%= @node[:planningalerts][@stage][:html_root] %>/scrapers" >
-      RackBaseURI /scrapers
-      RackEnv development
       Options -MultiViews
       
       # Even though this directory is password protected - allow localhost
