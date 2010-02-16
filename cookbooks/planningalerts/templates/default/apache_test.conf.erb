@@ -10,7 +10,7 @@
     #</Files>
     
     <Directory <%= @node[:planningalerts][@stage][:html_root] %>>
-      RailEnv development
+      RailsEnv development
       # Disable recognition of php files in this directory
       RemoveType .php
       Order allow,deny
