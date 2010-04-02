@@ -1,25 +1,6 @@
-development:
-  adapter: mysql
-  database: <%= @node[:planningalerts][:test][:database][:name] %>
-  host: localhost
-  username: <%= @node[:planningalerts][:test][:database][:user] %>
-  password: <%= @node[:planningalerts][:test][:database][:password] %>
-
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
-test: &TEST
-  adapter: mysql
-# TODO: Get database name, username and password for running tests from @node[:planningalerts]
-  database: planning_test
-  host: localhost
-
 production:
   adapter: mysql
-  database: <%= @node[:planningalerts][:production][:database][:name] %>
   host: localhost
-  username: <%= @node[:planningalerts][:production][:database][:user] %>
-  password: <%= @node[:planningalerts][:production][:database][:password] %>
-
-cucumber:
-  <<: *TEST
+  database: <%= @node[:planningalerts][@stage][:database][:name] %>
+  username: <%= @node[:planningalerts][@stage][:database][:user] %>
+  password: <%= @node[:planningalerts][@stage][:database][:password] %>

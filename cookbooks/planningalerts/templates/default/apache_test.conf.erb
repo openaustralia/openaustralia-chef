@@ -9,7 +9,7 @@
     #  Satisfy any
     #</Files>
     
-    RailsEnv development
+    #RailsEnv production
     <Directory <%= @node[:planningalerts][@stage][:html_root] %>>
       Order allow,deny
       Allow from all
@@ -22,7 +22,7 @@
     </Directory>
         
     RackBaseURI /scrapers
-    RackEnv development
+    #RackEnv production
     <Directory "<%= @node[:planningalerts][@stage][:html_root] %>/scrapers" >
       Options -MultiViews
       

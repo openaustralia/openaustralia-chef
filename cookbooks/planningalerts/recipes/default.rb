@@ -144,6 +144,7 @@ directory "#{node[:planningalerts][:test][:install_path]}/shared/config"
 
 template "#{@node[:planningalerts][:test][:install_path]}/shared/config/database.yml" do
   source "database.yml.erb"
+  variables :stage => :test
 end
 
 deploy_revision node[:planningalerts][:test][:install_path] do
