@@ -2,14 +2,6 @@
     ServerName <%= @node[:planningalerts][@stage][:virtual_host_name] %>
     DocumentRoot "<%= @node[:planningalerts][@stage][:html_root] %>"
 
-    # Make the api accessible without a password so that you can display the GeoRSS feeds on Google Maps
-    #<Files "api.php">
-    #  Order allow,deny
-    #  Allow from all
-    #  Satisfy any
-    #</Files>
-    
-    #RailsEnv production
     <Directory <%= @node[:planningalerts][@stage][:html_root] %>>
       Order allow,deny
       Allow from all
@@ -18,11 +10,10 @@
       AuthType Basic
       AuthName "Planning Alerts Staging Server"
       AuthUserFile <%= @node[:planningalerts][:test][:apache_password_file] %>
-      Require user test    
+      Require user test
     </Directory>
         
     RackBaseURI /scrapers
-    #RackEnv production
     <Directory "<%= @node[:planningalerts][@stage][:html_root] %>/scrapers" >
       Options -MultiViews
       
