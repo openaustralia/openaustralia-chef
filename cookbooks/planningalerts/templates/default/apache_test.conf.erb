@@ -2,7 +2,7 @@
     ServerName <%= @node[:planningalerts][@stage][:virtual_host_name] %>
     DocumentRoot "<%= @node[:planningalerts][@stage][:html_root] %>"
 
-    <Directory <%= @node[:planningalerts][@stage][:html_root] %>>
+    <Directory "<%= @node[:planningalerts][@stage][:html_root] %>">
       Order allow,deny
       Allow from all
       Options -MultiViews
@@ -14,7 +14,7 @@
     </Directory>
         
     RackBaseURI /scrapers
-    <Directory "<%= @node[:planningalerts][@stage][:html_root] %>/scrapers" >
+    <Directory "<%= @node[:planningalerts][@stage][:html_root] %>/scrapers">
       Options -MultiViews
       
       # Even though this directory is password protected - allow localhost

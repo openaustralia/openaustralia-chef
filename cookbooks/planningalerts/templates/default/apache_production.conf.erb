@@ -3,16 +3,13 @@
     DocumentRoot "<%= @node[:planningalerts][@stage][:html_root] %>"
 
     <Directory "<%= @node[:planningalerts][@stage][:html_root] %>">
-        # TODO: Change these to be restrictive
-        Options All MultiViews
-        AllowOverride All
-        Order allow,deny
-        Allow from all
+      Order allow,deny
+      Allow from all
+      Options -MultiViews
     </Directory>
-
-    RackEnv development
+        
     RackBaseURI /scrapers
-    <Directory "<%= @node[:planningalerts][@stage][:html_root] %>/scrapers" >
+    <Directory "<%= @node[:planningalerts][@stage][:html_root] %>/scrapers">
       Options -MultiViews
     </Directory>
     

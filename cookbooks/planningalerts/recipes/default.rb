@@ -69,7 +69,6 @@ gem_package "shorturl"
 gem_package "nokogiri"
 gem_package 'email_spec'
 
-# For the time being only setting up the staging environment (:test)
 [:production, :test].each do |stage|
   directory node[:planningalerts][stage][:install_path] do
     owner "matthewl"
@@ -77,113 +76,63 @@ gem_package 'email_spec'
     mode 0755
     recursive true
   end
-end
 
-directory "#{node[:planningalerts][:production][:install_path]}/shared/data" do
-  owner "www"
-  group "www"
-  # Making this writeable by everybody so that the mailer can be run as any user
-  # Just a convenience thing. Really should look at this in more detail
-  mode 0777
-  recursive true
-end
-
-template "#{@node[:planningalerts][:production][:install_path]}/shared/config.php" do
-  source "config.php.erb"
-  owner "matthewl"
-  group "matthewl"
-  mode 0644
-  variables :stage => :production
-end
-
-template "#{@node[:planningalerts][:production][:install_path]}/shared/htaccess" do
-  source "htaccess.erb"
-  owner "matthewl"
-  group "matthewl"
-  mode 0644
-  variables :stage => :production
-end
-
-directory "#{@node[:planningalerts][:production][:install_path]}/shared/pids"
-
-# TODO: Restart Passenger after deploy
-
-# Going to try to use the new deploy resource instead of using capistrano. Let's see how we go
-deploy_revision node[:planningalerts][:production][:install_path] do
-  revision "production"
-  repo "git://git.openaustralia.org/planningalerts.git"
-  # This should not be set to :force_deploy for normal usage
-  #action :force_deploy
-  scm_provider Chef::Provider::Git
-  # Override the default rails-like structure
-  symlink_before_migrate "config.php" => "planningalerts-app/docs/include/config.php"
-  purge_before_symlink ["planningalerts-app/docs/scrapers"]
-  create_dirs_before_symlink ["planningalerts-parsers/tmp", "planningalerts-parsers/public"]
-  symlinks "htaccess" => "planningalerts-app/docs/.htaccess",
-    "../current/planningalerts-parsers/public" => "planningalerts-app/docs/scrapers",
-    "pids" => "planningalerts-parsers/tmp/pids",
-    "log" => "planningalerts-parsers/log"
-  enable_submodules true
-end
-
-directory "#{node[:planningalerts][:test][:install_path]}/shared/" do
-  owner "matthewl"
-  group "matthewl"
-end
-
-directory "#{node[:planningalerts][:test][:install_path]}/shared/pids" do
-  owner "matthewl"
-  group "matthewl"
-end
-
-directory "#{node[:planningalerts][:test][:install_path]}/shared/log" do
-  mode 0777
-end
-
-directory "#{node[:planningalerts][:test][:install_path]}/shared/config"
-
-template "#{@node[:planningalerts][:test][:install_path]}/shared/config/database.yml" do
-  source "database.yml.erb"
-  variables :stage => :test
-end
-
-deploy_revision node[:planningalerts][:test][:install_path] do
-  revision "test"
-  user "matthewl"
-  group "matthewl"
-  repo "git://git.openaustralia.org/planningalerts.git"
-  # This should not be set to :force_deploy for normal usage
-  #action :force_deploy
-  scm_provider Chef::Provider::Git
-  symlink_before_migrate "config/database.yml" => "planningalerts-app/config/database.yml"
-  purge_before_symlink ["planningalerts-app/log", "planningalerts-app/tmp/pids", "planningalerts-app/public/system"]
-  create_dirs_before_symlink ["planningalerts-app/tmp", "planningalerts-app/public", "planningalerts-app/config",
-    "planningalerts-parsers/public"]
-  symlinks "system" => "planningalerts-app/public/system", "pids" => "planningalerts-app/tmp/pids",
-    "log" => "planningalerts-app/log",
-    "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
-  # We'll wait until the configuration gets overridden below before we restart passenger. So, below is commented out
-  #restart_command "touch planningalerts-app/tmp/restart.txt"  
-  enable_submodules true
-end
-
-ruby_block "restart planningalerts" do
-  block do
-    require 'fileutils'
-    FileUtils.touch("#{node[:planningalerts][:test][:install_path]}/current/planningalerts-app/tmp/restart.txt")
+  directory "#{node[:planningalerts][stage][:install_path]}/shared/" do
+    owner "matthewl"
+    group "matthewl"
   end
-  # Only run this when it gets notified by others
-  action :nothing
-end
 
-# TODO: We need to kick passenger (touch tmp/restart.txt) when we change this file
-template "#{@node[:planningalerts][:test][:install_path]}/current/planningalerts-app/app/models/configuration.rb" do
-  source "configuration.rb.erb"
-  variables :stage => :test
-  notifies :create, resources(:ruby_block => "restart planningalerts"), :immediately
-end
+  directory "#{node[:planningalerts][stage][:install_path]}/shared/pids" do
+    owner "matthewl"
+    group "matthewl"
+  end
 
-[:production, :test].each do |stage|
+  directory "#{node[:planningalerts][stage][:install_path]}/shared/log" do
+    mode 0777
+  end
+
+  directory "#{node[:planningalerts][stage][:install_path]}/shared/config"
+
+  template "#{@node[:planningalerts][stage][:install_path]}/shared/config/database.yml" do
+    source "database.yml.erb"
+    variables :stage => stage
+  end
+
+  deploy_revision node[:planningalerts][stage][:install_path] do
+    revision stage.to_s
+    user "matthewl"
+    group "matthewl"
+    repo "git://git.openaustralia.org/planningalerts.git"
+    # This should not be set to :force_deploy for normal usage
+    #action :force_deploy
+    scm_provider Chef::Provider::Git
+    symlink_before_migrate "config/database.yml" => "planningalerts-app/config/database.yml"
+    purge_before_symlink ["planningalerts-app/log", "planningalerts-app/tmp/pids", "planningalerts-app/public/system"]
+    create_dirs_before_symlink ["planningalerts-app/tmp", "planningalerts-app/public", "planningalerts-app/config",
+      "planningalerts-parsers/public"]
+    symlinks "system" => "planningalerts-app/public/system", "pids" => "planningalerts-app/tmp/pids",
+      "log" => "planningalerts-app/log",
+      "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
+    # We'll wait until the configuration gets overridden below before we restart passenger. So, below is commented out
+    #restart_command "touch planningalerts-app/tmp/restart.txt"  
+    enable_submodules true
+  end
+  
+  ruby_block "restart planningalerts" do
+    block do
+      require 'fileutils'
+      FileUtils.touch("#{node[:planningalerts][stage][:install_path]}/current/planningalerts-app/tmp/restart.txt")
+    end
+    # Only run this when it gets notified by others
+    action :nothing
+  end
+
+  template "#{@node[:planningalerts][stage][:install_path]}/current/planningalerts-app/app/models/configuration.rb" do
+    source "configuration.rb.erb"
+    variables :stage => stage
+    notifies :create, resources(:ruby_block => "restart planningalerts"), :immediately
+  end
+
   template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][stage][:name]}" do
     source "apache_#{stage}.conf.erb"
     mode 0644
