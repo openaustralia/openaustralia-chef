@@ -2,6 +2,10 @@
     ServerName <%= @node[:planningalerts][@stage][:virtual_host_name] %>
     DocumentRoot "<%= @node[:planningalerts][@stage][:html_root] %>"
 
+    # Turn off any php handling for this so that urls ending in .php get passed to Rails
+    RemoveHandler .php
+    php_flag engine off
+
     <Directory "<%= @node[:planningalerts][@stage][:html_root] %>">
       Order allow,deny
       Allow from all
