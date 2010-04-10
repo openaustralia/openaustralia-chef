@@ -127,3 +127,11 @@ end
 #  checksum "91ca4fecbab16827f504c2a2e34d07fd8eda6a7b"
 #  notifies :restart, resources(:service => "jira4")
 #end
+
+# Install GreenHopper plugin for Jira
+remote_file "#{node[:jira_home]}/plugins/installed-plugins/jira-greenhopper-plugin-4.3.1.jar" do
+  source "http://www.atlassian.com/software/greenhopper/downloads/binary/jira-greenhopper-plugin-4.3.1.jar"
+  owner "www"
+  checksum "067624ea54af8a874f9b2687bc801f09"
+  notifies :restart, resources(:service => "jira4")
+end
