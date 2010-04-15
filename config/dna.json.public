@@ -7,10 +7,15 @@
       "users": ["matthewl", "henare"]
     }
   },
+  "openaustraliafoundation": {
+          "domain": "openaustraliafoundation.org.au"
+          /* Comment out the line above and uncomment the line below when testing against a local VM */
+          /* "domain": "openaustraliafoundation.test" */
+  },
   "openaustralia": {
           "domain": "openaustralia.org"
           /* Comment out the line above and uncomment the line below when testing against a local VM */
-          /* "domain": "test.org" */
+          /* "domain": "openaustralia.test" */
   },
   "planningalerts": {
           "domain": "planningalerts.org.au"

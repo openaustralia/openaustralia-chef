@@ -139,11 +139,19 @@ template "#{@node[:apache][:dir]}/sites-available/hackfest" do
   group "wheel"
 end
 
+template "#{@node[:apache][:dir]}/sites-available/tickets.openaustralia" do
+  source "apache_tickets.conf.erb"
+  mode 0644
+  owner "root"
+  group "wheel"
+end
+
 apache_site "default"
 apache_site "test"
 apache_site "software"
 apache_site "data"
 apache_site "hackfest"
+apache_site "tickets.openaustralia"
 
 #MAILTO=matthew@openaustralia.org
 #HOME=/www/www/openaustralia/current/twfy/scripts
