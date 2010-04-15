@@ -151,3 +151,12 @@ end
 
 # For deployments code is stored on the server. So, for testing make sure that you push the code
 # to the test server
+
+template "#{@node[:apache][:dir]}/sites-available/tickets.planningalerts" do
+  source "apache_tickets.conf.erb"
+  mode 0644
+  owner "root"
+  group "wheel"
+end
+
+apache_site "tickets.planningalerts"

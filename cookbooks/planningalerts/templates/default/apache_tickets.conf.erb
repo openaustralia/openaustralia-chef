@@ -1,0 +1,5 @@
+# Redirect (301) http://tickets.planningalerts.org.au/ -> http://tickets.openaustralia.org/browse/PA
+<VirtualHost *:80>
+    ServerName tickets.<%= @node[:planningalerts][:domain] %>
+    Redirect permanent / http://<%= @node[:jira_virtual_host_name] %>/browse/PA/
+</VirtualHost>
