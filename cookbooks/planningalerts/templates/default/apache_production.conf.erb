@@ -10,6 +10,15 @@
       Order allow,deny
       Allow from all
       Options -MultiViews
+
+      # gzip html, css and js
+      AddOutputFilterByType DEFLATE text/html text/css application/x-javascript application/javascript
+
+      ExpiresActive On
+      # far future expires headers
+      <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)\?\d{10}$">
+        ExpiresDefault "access plus 10 years"
+      </FilesMatch>
     </Directory>
         
     RackBaseURI /scrapers
