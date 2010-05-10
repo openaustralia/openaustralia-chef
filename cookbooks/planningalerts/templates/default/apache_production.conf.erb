@@ -16,7 +16,7 @@
 
       ExpiresActive On
       # far future expires headers
-      <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)\?\d{10}$">
+      <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
         ExpiresDefault "access plus 10 years"
       </FilesMatch>
     </Directory>
