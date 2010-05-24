@@ -113,6 +113,8 @@ gem_package 'email_spec'
     symlinks "system" => "planningalerts-app/public/system", "pids" => "planningalerts-app/tmp/pids",
       "log" => "planningalerts-app/log",
       "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
+    #migrate true
+    #migration_command "rake db:migrate RAILS_ENV=production"
     # We'll wait until the configuration gets overridden below before we restart passenger. So, below is commented out
     #restart_command "touch planningalerts-app/tmp/restart.txt"  
     enable_submodules true
