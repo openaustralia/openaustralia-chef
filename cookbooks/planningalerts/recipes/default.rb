@@ -127,10 +127,19 @@ gem_package 'email_spec'
     action :nothing
   end
 
+  directory "#{@node[:planningalerts][stage][:install_path]}/shared/db/sphinx" do
+    recursive true
+  end
+
+  template "#{@node[:planningalerts][stage][:install_path]}/current/planningalerts-app/config/sphinx.yml" do
+    source "sphinx.yml.erb"
+    variables :stage => stage
+  end
+
   template "#{@node[:planningalerts][stage][:install_path]}/current/planningalerts-app/app/models/configuration.rb" do
     source "configuration.rb.erb"
     variables :stage => stage
-    notifies :create, resources(:ruby_block => "restart planningalerts"), :immediately
+    notifies :create, resources(:ruby_block => "restart planningalerts")
   end
 
   template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][stage][:name]}" do
