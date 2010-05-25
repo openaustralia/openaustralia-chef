@@ -136,20 +136,10 @@ gem_package 'email_spec'
       "pids" => "planningalerts-app/tmp/pids",
       "log" => "planningalerts-app/log",
       "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
-    # We'll wait until the configuration gets overridden below before we restart passenger. So, below is commented out
-    #restart_command "touch planningalerts-app/tmp/restart.txt"  
+    restart_command "touch planningalerts-app/tmp/restart.txt"  
     enable_submodules true
   end
   
-  ruby_block "restart planningalerts" do
-    block do
-      require 'fileutils'
-      FileUtils.touch("#{node[:planningalerts][stage][:install_path]}/current/planningalerts-app/tmp/restart.txt")
-    end
-    # Only run this when it gets notified by others
-    action :nothing
-  end
-
   template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][stage][:name]}" do
     source "apache_#{stage}.conf.erb"
     mode 0644
