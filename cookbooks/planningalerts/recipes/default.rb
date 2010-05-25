@@ -135,8 +135,8 @@ gem_package 'email_spec'
       "config/sphinx.yml" => "planningalerts-app/config/sphinx.yml",
       "config/production.sphinx.conf" => "planningalerts-app/config/production.sphinx.conf",
       "configuration.rb" => "planningalerts-app/app/models/configuration.rb"
-    #migrate true
-    #migration_command "rake db:migrate RAILS_ENV=production"
+    migrate true
+    migration_command "cd planningalerts-app; rake db:migrate RAILS_ENV=production"
     purge_before_symlink \
       ["planningalerts-app/log", "planningalerts-app/tmp/pids", "planningalerts-app/public/system"]
     create_dirs_before_symlink \
