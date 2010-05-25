@@ -115,13 +115,17 @@ gem_package 'email_spec'
     # This should not be set to :force_deploy for normal usage
     #action :force_deploy
     scm_provider Chef::Provider::Git
-    symlink_before_migrate "config/database.yml" => "planningalerts-app/config/database.yml",
+    symlink_before_migrate \
+      "config/database.yml" => "planningalerts-app/config/database.yml",
       "config/sphinx.yml" => "planningalerts-app/config/sphinx.yml",
       "config/production.sphinx.conf" => "planningalerts-app/config/production.sphinx.conf"
-    purge_before_symlink ["planningalerts-app/log", "planningalerts-app/tmp/pids", "planningalerts-app/public/system"]
-    create_dirs_before_symlink ["planningalerts-app/tmp", "planningalerts-app/public", "planningalerts-app/config",
-      "planningalerts-parsers/public"]
-    symlinks "system" => "planningalerts-app/public/system", "pids" => "planningalerts-app/tmp/pids",
+    purge_before_symlink \
+      ["planningalerts-app/log", "planningalerts-app/tmp/pids", "planningalerts-app/public/system"]
+    create_dirs_before_symlink \
+      ["planningalerts-app/tmp", "planningalerts-app/public", "planningalerts-app/config", "planningalerts-parsers/public"]
+    symlinks \
+      "system" => "planningalerts-app/public/system",
+      "pids" => "planningalerts-app/tmp/pids",
       "log" => "planningalerts-app/log",
       "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
     #migrate true
