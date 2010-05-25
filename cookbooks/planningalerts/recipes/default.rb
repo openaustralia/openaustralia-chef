@@ -107,6 +107,11 @@ gem_package 'email_spec'
     variables :stage => stage
   end
 
+  template "#{@node[:planningalerts][stage][:install_path]}/shared/configuration.rb" do
+    source "configuration.rb.erb"
+    variables :stage => stage
+  end
+
   deploy_revision node[:planningalerts][stage][:install_path] do
     revision stage.to_s
     user "matthewl"
@@ -118,7 +123,8 @@ gem_package 'email_spec'
     symlink_before_migrate \
       "config/database.yml" => "planningalerts-app/config/database.yml",
       "config/sphinx.yml" => "planningalerts-app/config/sphinx.yml",
-      "config/production.sphinx.conf" => "planningalerts-app/config/production.sphinx.conf"
+      "config/production.sphinx.conf" => "planningalerts-app/config/production.sphinx.conf",
+      "configuration.rb" => "planningalerts-app/app/models/configuration.rb"
     #migrate true
     #migration_command "rake db:migrate RAILS_ENV=production"
     purge_before_symlink \
@@ -142,12 +148,6 @@ gem_package 'email_spec'
     end
     # Only run this when it gets notified by others
     action :nothing
-  end
-
-  template "#{@node[:planningalerts][stage][:install_path]}/current/planningalerts-app/app/models/configuration.rb" do
-    source "configuration.rb.erb"
-    variables :stage => stage
-    notifies :create, resources(:ruby_block => "restart planningalerts")
   end
 
   template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][stage][:name]}" do
