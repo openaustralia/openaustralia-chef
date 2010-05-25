@@ -112,6 +112,16 @@ gem_package 'email_spec'
     variables :stage => stage
   end
 
+  template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][stage][:name]}" do
+    source "apache_#{stage}.conf.erb"
+    mode 0644
+    owner "root"
+    group "wheel"
+    variables :stage => stage
+  end
+
+  apache_site @node[:planningalerts][stage][:name]
+
   deploy_revision node[:planningalerts][stage][:install_path] do
     revision stage.to_s
     user "matthewl"
@@ -138,17 +148,7 @@ gem_package 'email_spec'
       "../current/planningalerts-parsers/public" => "planningalerts-app/public/scrapers"
     restart_command "touch planningalerts-app/tmp/restart.txt"  
     enable_submodules true
-  end
-  
-  template "#{@node[:apache][:dir]}/sites-available/#{@node[:planningalerts][stage][:name]}" do
-    source "apache_#{stage}.conf.erb"
-    mode 0644
-    owner "root"
-    group "wheel"
-    variables :stage => stage
-  end
-
-  apache_site @node[:planningalerts][stage][:name]
+  end  
 end
 
 remote_file @node[:planningalerts][:test][:apache_password_file] do
