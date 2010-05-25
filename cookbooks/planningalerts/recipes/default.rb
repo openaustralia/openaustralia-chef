@@ -98,6 +98,15 @@ gem_package 'email_spec'
     variables :stage => stage
   end
 
+  directory "#{@node[:planningalerts][stage][:install_path]}/shared/db/sphinx" do
+    recursive true
+  end
+
+  template "#{@node[:planningalerts][stage][:install_path]}/shared/config/sphinx.yml" do
+    source "sphinx.yml.erb"
+    variables :stage => stage
+  end
+
   deploy_revision node[:planningalerts][stage][:install_path] do
     revision stage.to_s
     user "matthewl"
@@ -106,7 +115,9 @@ gem_package 'email_spec'
     # This should not be set to :force_deploy for normal usage
     #action :force_deploy
     scm_provider Chef::Provider::Git
-    symlink_before_migrate "config/database.yml" => "planningalerts-app/config/database.yml"
+    symlink_before_migrate "config/database.yml" => "planningalerts-app/config/database.yml",
+      "config/sphinx.yml" => "planningalerts-app/config/sphinx.yml",
+      "config/production.sphinx.conf" => "planningalerts-app/config/production.sphinx.conf"
     purge_before_symlink ["planningalerts-app/log", "planningalerts-app/tmp/pids", "planningalerts-app/public/system"]
     create_dirs_before_symlink ["planningalerts-app/tmp", "planningalerts-app/public", "planningalerts-app/config",
       "planningalerts-parsers/public"]
@@ -127,15 +138,6 @@ gem_package 'email_spec'
     end
     # Only run this when it gets notified by others
     action :nothing
-  end
-
-  directory "#{@node[:planningalerts][stage][:install_path]}/shared/db/sphinx" do
-    recursive true
-  end
-
-  template "#{@node[:planningalerts][stage][:install_path]}/current/planningalerts-app/config/sphinx.yml" do
-    source "sphinx.yml.erb"
-    variables :stage => stage
   end
 
   template "#{@node[:planningalerts][stage][:install_path]}/current/planningalerts-app/app/models/configuration.rb" do
