@@ -592,3 +592,6 @@ jira.dashboard.max.gadgets=20
 # If you would like to force https only for the login screen but nowhere else in JIRA, set this property to true.
 # See JRA-17727
 jira.disable.login.gadget = false
+
+# Allow us to take on demand backups
+jira.paths.safe.backup.path = <%= @node[:jira_install_path] %>/data/export
